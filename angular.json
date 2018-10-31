@@ -1,0 +1,139 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "chatt-app": {
+      "root": "apps/chatt-app/",
+      "sourceRoot": "apps/chatt-app/src",
+      "projectType": "application",
+      "prefix": "chatt",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/chatt-app",
+            "index": "apps/chatt-app/src/index.html",
+            "main": "apps/chatt-app/src/main.ts",
+            "polyfills": "apps/chatt-app/src/polyfills.ts",
+            "tsConfig": "apps/chatt-app/tsconfig.app.json",
+            "assets": [
+              "apps/chatt-app/src/favicon.ico",
+              "apps/chatt-app/src/assets"
+            ],
+            "styles": [
+              "apps/chatt-app/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/chatt-app/src/environments/environment.ts",
+                  "with": "apps/chatt-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "chatt-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "chatt-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "chatt-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/chatt-app/tsconfig.app.json",
+              "apps/chatt-app/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/chatt-app/jest.config.js",
+            "tsConfig": "apps/chatt-app/tsconfig.spec.json",
+            "setupFile": "apps/chatt-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "chatt-app-e2e": {
+      "root": "apps/chatt-app-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/chatt-app-e2e/cypress.json",
+            "tsConfig": "apps/chatt-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "chatt-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "chatt-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics",
+    "packageManager": "npm"
+  },
+  "defaultProject": "chatt-app"
+}
